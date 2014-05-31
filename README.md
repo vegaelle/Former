@@ -113,14 +113,13 @@ set the right renderer at form creation time.
 It’s great to show a form, but it’s currently the easiest thing to do when
 you’re dealing with forms. So, how to work with data?
 
-    if(count($_GET)) {
-        if($form->validate($_GET)) {
-            // do the job! Your form is valid.
-            send_mail($form->name, $form->mail, $form->message);
-            redirects_somewhere();
-        }
+    if(count($_GET) && $form->validate($_GET)) {
+        // do the job! Your form is valid.
+        send_mail($form->name, $form->mail, $form->message);
+        redirects_somewhere();
+    } else {
+        echo $form;
     }
-    echo $form;
 
 No else statement, because if the form is invalid, we just have to show it back
 to the user, with pre-filled values and error messages.

@@ -45,13 +45,12 @@ class ContactForm extends Former
 
 $form = new ContactForm();
 
-if(count($_GET)) {
-    if($form->validate($_GET)) {
-        // do the job! Your form is valid.
-        // send_mail($form->name, $form->mail, $form->message);
-        // redirects_somewhere();
-        echo 'Great, your form is valid.';
-    }
+if(count($_GET) && $form->validate($_GET)) {
+    // do the job! Your form is valid.
+    // send_mail($form->name, $form->mail, $form->message);
+    // redirects_somewhere();
+    echo 'Great, your form is valid.';
+} else {
+    echo $form;
 }
-echo $form;
 
