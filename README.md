@@ -74,23 +74,23 @@ it programmatically with this syntax:
 
     $form = new Former();
     $form->addCSRF();
-    $form->addSubmit(array('value' =    'Send'));
-    $form->setRenderer('InlineFormRenderer', array('id' =    'my-contact-form'));
+    $form->addSubmit(array('value' => 'Send'));
+    $form->setRenderer('InlineFormRenderer', array('id' => 'my-contact-form'));
     
-    $field_options = array('title' =    'Your name');
-    $validators = array('Required' =    null,
-                        'LengthValidator' =    array('min' =    4, 'max' =    64)
+    $field_options = array('title' => 'Your name');
+    $validators = array('Required' => null,
+                        'LengthValidator' => array('min' => 4, 'max' => 64)
                        );
     $form->addField('name', 'InputField', $field_options, $validators);
     
-    $field_options = array('title' =    'Your e-mail');
-    $validators = array('Required' =    null);
+    $field_options = array('title' => 'Your e-mail');
+    $validators = array('Required' => null);
     $form->addField('email', 'MailField', $field_options, $validators);
     
-    $field_options = array('title' =    'Your message');
-    $validators = array('Required' =    null);
-    $filters = array('HtmlFilter' =    array());
-    $renderer = array('TextRenderer' =    array('class' =    'message-box'));
+    $field_options = array('title' => 'Your message');
+    $validators = array('Required' => null);
+    $filters = array('HtmlFilter' => array());
+    $renderer = array('TextRenderer' => array('class' => 'message-box'));
     $form->addField('message', 'TextField', $field_options,
                     $validators, $filters, $renderer);
 
@@ -131,9 +131,9 @@ When it comes to an update form, we like to pre-fill it data. All you have to do
 is give that data (in an associative array) to the form constructor, or use the
 setData() method (for the dynamic way).
 
-    $data = array('name' =    'Alice',
-                  'email' =    'alice@wonderla.nd',
-                  'message' =    'Hi Bob, Just wanted to send you a dummy message.'
+    $data = array('name' => 'Alice',
+                  'email' => 'alice@wonderla.nd',
+                  'message' => 'Hi Bob, Just wanted to send you a dummy message.'
                  );
     // classic way
     $form = new ContactForm($data);
