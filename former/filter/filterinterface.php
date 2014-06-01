@@ -1,6 +1,6 @@
 <?php
 /**
- * Former exceptions types
+ * Standard filter; every Former filter should implement it
  *
  * @package former
  * @author Damien Nicolas <damien@gordon.re>
@@ -9,4 +9,8 @@
  * @license AGPLv3
  */
 
-class Former_EmptyFieldException extends Exception {}
+interface Former_Filter_FilterInterface
+{
+    public function filter($value);
+
+}

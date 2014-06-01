@@ -36,6 +36,8 @@ function __autoload($classname)
 
 spl_autoload_register('__autoload');
 
+require_once(FORMER_PATH.'exceptions.php');
+
 
 class Former
 {
@@ -82,10 +84,10 @@ class Former
      */
     public function __construct($action = '', $method='get')
     {
-        $rendererClass = 'Former_Renderer_'.$this->_rendererClass;
         $this->_action = $action;
         $this->_method = $method;
-        $this->_renderer = new $rendererClass($this);
+        $rendererClass = 'Former_Renderer_'.$this->_rendererClass;
+        $this->_renderer = new $rendererClass($this, array());
         $this->create_from_decorators();
     }
 
@@ -115,6 +117,14 @@ class Former
      */
     public function validate($data)
     {
+        $valid = true;
+        foreach($this->get_fields() as $field_name => $field) {
+            if(isset($data[$field_name])) {
+                $this->$field_name = $field->value = $field->filter($data[$field_name]);
+                $valid = $field->validate() && $valid;
+            }
+        }
+        return $valid;
 
     }
 
@@ -178,7 +188,7 @@ class Former
                         $renderer = array('name' => $decorator_name,
                                           'options' => $options);
                     } elseif($decorator_name == 'Required') {
-                        $validators['Required'] = null;
+                        $validators['RequiredValidator'] = array();
                     }
                 }
                 if(!empty($field_type)) {
@@ -187,15 +197,38 @@ class Former
                 }
             }
         }
+
+        // now reading the class decorators
+        $class_reflection = new ReflectionClass($this);
+        $class_decorators = $this->extract_decorators($class_reflection);
+        $addCSRF = true;
+        foreach($class_decorators as $decorator_name => $options) {
+            if(substr($decorator_name, -8) == 'Renderer') {
+                $this->_rendererClass = $decorator_name;
+                $rendererClass = 'Former_Renderer_'.$this->_rendererClass;
+                $this->_renderer = new $rendererClass($this, $options);
+            } elseif($decorator_name == 'Submit') {
+                // adding a Submit button
+                $this->add_field('submit', 'SubmitField', $options);
+            } elseif($decorator_name == 'NoCSRF') {
+                // disable the automatic CSRF field (who would want that?)
+                $addCSRF = false;
+            }
+        }
+
+        // finally, add the CSRF field
+        if($addCSRF) {
+            
+        }
     }
 
     /**
      * parses all decorators from a property and returns them as an associative 
      * array in which values are themselves associative arrays
-     * @param ReflectionProperty $field the object property to parse
+     * @param ReflectionProperty|ReflectionObject $field the object property to parse
      * @return array the parsed decorators
      */
-    protected function extract_decorators(ReflectionProperty $field)
+    protected function extract_decorators($field)
     {
         // TODO: add caching to this method (and avoid heavy dependencies)
         $pattern = '/(?: |\t)*\*(?: )?@([a-zA-Z]+)\((.*)\)/';

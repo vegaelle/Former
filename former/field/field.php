@@ -38,8 +38,19 @@ class Former_Field_Field
 
         $this->name = $name;
         $this->options = $options;
-        $this->validators = $validators;
-        $this->filters = $filters;
+
+        $this->validators = array();
+        foreach($validators as $validator_name => $validator) {
+            $validatorType = 'Former_Validator_'.$validator_name;
+            $this->validators[$validator_name] = new $validatorType($validator);
+        }
+
+        $this->filters = array();
+        foreach($filters as $filter_name => $filter) {
+            $filterType = 'Former_Filter_'.$filter_name;
+            $this->filters[$filter_name] = new $filterType($filter);
+        }
+
         if(!empty($renderer)) {
             $rendererClass = 'Former_Renderer_'.$renderer['name'];
             $this->renderer = new $rendererClass($this, $renderer['options']);
@@ -53,8 +64,7 @@ class Former_Field_Field
      */
     public function validate()
     {
-        if(empty($this->value)) throw new Former_EmptyFieldException($this->name);
-        foreach($this->validators as $validator) {
+        foreach($this->validators as $validator_name => $validator) {
             $result = $validator->validate($this->value);
             if(!$result) {
                 $this->errors[] = $validator->error;
@@ -72,19 +82,16 @@ class Former_Field_Field
      * runs all the filters to sanitize the submitted data
      * @throws EmptyFieldException
      */
-    public function filter()
+    public function filter($value)
     {
-        if(empty($this->value)) throw new Former_EmptyFieldException($this->name);
         foreach($this->filters as $filter) {
-            $this->value = $filter->filter($this->value);
+            $value = $filter->filter($value);
         }
+        return $value;
     }
 
     public function render()
     {
-        if(!$this->renderer) {
-            var_dump($this);
-        }
         return $this->renderer->render();
     }
 

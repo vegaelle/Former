@@ -1,6 +1,6 @@
 <?php
 /**
- * Textarea renderer
+ * Submit button renderer
  *
  * @package former
  * @author Damien Nicolas <damien@gordon.re>
@@ -9,13 +9,12 @@
  * @license AGPLv3
  */
 
-class Former_Renderer_TextRenderer extends Former_Renderer_Renderer
+class Former_Renderer_SubmitRenderer extends Former_Renderer_Renderer
 {
     protected $rendering = <<<EOT
 {{input_errors}}
-<label for="{{input_id}}">{{input_title}}: </label>
-<textarea name="{{input_name}}"
-id="{{input_id}}">{{input_value}}</textarea>
+<input type="submit" name="{{input_name}}"
+id="{{input_id}}" value="{{input_value}}"/>
 EOT;
 
     public function __construct($field, array $options = array())
@@ -23,6 +22,9 @@ EOT;
         parent::__construct($field, $options);
         if(!isset($this->options['id'])) {
             $this->options['id'] = $this->field->name;
+        }
+        if(!isset($this->options['type'])) {
+            $this->options['type'] = 'text';
         }
         if(!isset($this->field->options['title'])) {
             $this->options['title'] = ucfirst(str_replace(array('-', '_'),
@@ -48,8 +50,9 @@ EOT;
         }
         $data['input_id'] = $this->options['id'];
         $data['input_name'] = $this->field->name;
-        $data['input_value'] = $this->field->value;
+        $data['input_value'] = $this->field->options['value'];
         $data['input_title'] = $this->options['title'];
+        $data['input_type'] = $this->options['type'];
         return $this->replace_data($data);
     }
 }

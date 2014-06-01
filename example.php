@@ -14,7 +14,7 @@ require_once('former/former.php');
 
 /**
  * @Submit(value='Send')
- * @InlineFormRenderer(id='my-contact-form')
+ * @FormRenderer(id='my-contact-form')
  */
 class ContactForm extends Former
 {
@@ -60,6 +60,9 @@ if(count($_GET) && $form->validate($_GET)) {
     // redirects_somewhere();
     echo 'Great, your form is valid.';
 } else {
+    /*echo '<pre>';
+    var_dump($form);
+    echo '</pre>';*/
     echo $form;
 }
 ?>
