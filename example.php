@@ -9,11 +9,10 @@
  * @license AGPLv3
  */
 
-require_once('former/Former.php');
+require_once('former/former.php');
 
 
 /**
- * @CSRF()
  * @Submit(value='Send')
  * @InlineFormRenderer(id='my-contact-form')
  */
@@ -43,6 +42,16 @@ class ContactForm extends Former
 
 }
 
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Former example</title>
+    </head>
+    <body>
+<?php
+
 $form = new ContactForm();
 
 if(count($_GET) && $form->validate($_GET)) {
@@ -53,4 +62,6 @@ if(count($_GET) && $form->validate($_GET)) {
 } else {
     echo $form;
 }
-
+?>
+    </body>
+</html>
