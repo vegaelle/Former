@@ -82,13 +82,19 @@ class Former
      * constructs a form object, ready to be validated 
      * @param string $action optional URL or URI where to submit the form
      */
-    public function __construct($action = '', $method='get')
+    public function __construct($action = '', $method='get', $data = array())
     {
+        if(is_array($action)) {
+            $data = $action;
+            $action = '';
+        }
         $this->_action = $action;
         $this->_method = $method;
         $rendererClass = 'Former_Renderer_'.$this->_rendererClass;
         $this->_renderer = new $rendererClass($this, array());
         $this->create_from_decorators();
+
+        $this->set_data($data);
     }
 
     /**
@@ -299,6 +305,15 @@ class Former
     public function add_error($error)
     {
         $this->_errors[] = $error;
+    }
+
+    public function set_data($data)
+    {
+        foreach($this->get_fields() as $field_name => $field) {
+            if(isset($data[$field_name])) {
+                $this->$field_name = $field->value = $field->filter($data[$field_name]);
+            }
+        }
     }
 
 }
