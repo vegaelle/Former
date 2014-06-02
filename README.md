@@ -81,17 +81,17 @@ it programmatically with this syntax:
     $validators = array('Required' => null,
                         'LengthValidator' => array('min' => 4, 'max' => 64)
                        );
-    $form->addField('name', 'InputField', $field_options, $validators);
+    $form->add_field('name', 'InputField', $field_options, $validators);
     
     $field_options = array('title' => 'Your e-mail');
     $validators = array('Required' => null);
-    $form->addField('email', 'MailField', $field_options, $validators);
+    $form->add_field('email', 'MailField', $field_options, $validators);
     
     $field_options = array('title' => 'Your message');
     $validators = array('Required' => null);
     $filters = array('HtmlFilter' => array());
     $renderer = array('TextRenderer' => array('class' => 'message-box'));
-    $form->addField('message', 'TextField', $field_options,
+    $form->add_field('message', 'TextField', $field_options,
                     $validators, $filters, $renderer);
 
 ### Using a form
@@ -140,7 +140,7 @@ setData() method (for the dynamic way).
     // dynamic way
     $form = new Former();
     // add fields
-    $form->setData($data);
+    $form->set_data($data);
 
 When rendered, the form will be pre-filled. The data will be validated, but not
 filtered.

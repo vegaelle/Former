@@ -52,7 +52,12 @@ class ContactForm extends Former
     <body>
 <?php
 
-$form = new ContactForm();
+$data = array('name' => 'Alice',
+              'email' => 'alice@in@wonderla.nd',
+              'message' => 'Hi Bob, just wanted to try an </textarea><h1>XSS injection</h1> on you ♥'
+             );
+
+$form = new ContactForm($data);
 
 if(count($_GET) && $form->validate($_GET)) {
     // do the job! Your form is valid.
