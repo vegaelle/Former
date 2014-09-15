@@ -27,9 +27,9 @@ class Former_Renderer_Renderer implements Former_Renderer_RendererInterface
         return $this->replace_data(array());
     }
 
-    protected function replace_data(array $data)
+    protected function replace_data(array $data, $rendering = null)
     {
-        $rendering = $this->rendering;
+        if(!$rendering) $rendering = $this->rendering;
 
         foreach($data as $data_key => $data_value) {
             $rendering = str_replace('{{'.$data_key.'}}', $data_value, $rendering);

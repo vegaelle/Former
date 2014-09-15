@@ -40,6 +40,12 @@ class ContactForm extends Former
      */
     public $message;
 
+    /**
+     * @SelectField(title='Select some things', values='a:foo|b:bar')
+     * @Required()
+     */
+     public $things;
+
 }
 
 ?>
@@ -54,7 +60,8 @@ class ContactForm extends Former
 
 $data = array('name' => 'Alice',
               'email' => 'alice@in@wonderla.nd',
-              'message' => 'Hi Bob, just wanted to try an </textarea><h1>XSS injection</h1> on you ♥'
+              'message' => 'Hi Bob, just wanted to try an </textarea><h1>XSS injection</h1> on you ♥',
+              'things' => 'b'
              );
 
 $form = new ContactForm($data);
