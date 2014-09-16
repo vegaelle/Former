@@ -41,7 +41,7 @@ class ContactForm extends Former
     public $message;
 
     /**
-     * @SelectField(title='Select some things', values='a:foo|b:bar')
+     * @SelectField(title='Select some things', values='foo|b:bar')
      * @Required()
      */
      public $things;

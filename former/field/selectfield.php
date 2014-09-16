@@ -23,8 +23,10 @@ class Former_Field_SelectField extends Former_Field_Field
                 if(strpos($val, ':') !== false) {
                     $k = substr($val, 0, strpos($val, ':'));
                     $val = substr($val, strpos($val, ':')+1);
+                    $this->values[$k] = $val;
+                } else {
+                    $this->values[$val] = $val;
                 }
-                $this->values[$val] = $val;
             }
         } else {
             throw new InvalidArgumentException('You can’t create a SelectField without values.');
