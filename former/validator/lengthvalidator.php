@@ -20,6 +20,10 @@ class Former_Validator_LengthValidator extends Former_Validator_Validator
         $this->error = 'The value must be ';
         if(isset($options['min']) && isset($options['max'])) {
             $this->error .= 'between '.$options['min'].' and '.$options['max'].' characters.';
+        } elseif(isset($options['min'])) {
+            $this->error .= 'more than '.$options['min'].' characters.';
+        } elseif(isset($options['max'])) {
+            $this->error .= 'less than '.$options['max'].' characters.';
         }
     }
 
