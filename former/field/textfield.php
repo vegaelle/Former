@@ -14,10 +14,11 @@ class Former_Field_TextField extends Former_Field_Field
     public function __construct($name, $options = null, $validators = null,
                                 $filters = null, $renderer = null)
     {
-        parent::__construct($name, $options, $validators, $filters, $renderer);
         if($renderer == null) {
-            $renderer = array('TextRenderer' => array());
+            $renderer = array('name' => 'TextRenderer', 'options' => array());
         }
+        var_dump($renderer);
+        parent::__construct($name, $options, $validators, $filters, $renderer);
     }
 
 }
