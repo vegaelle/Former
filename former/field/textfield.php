@@ -17,7 +17,6 @@ class Former_Field_TextField extends Former_Field_Field
         if($renderer == null) {
             $renderer = array('name' => 'TextRenderer', 'options' => array());
         }
-        var_dump($renderer);
         parent::__construct($name, $options, $validators, $filters, $renderer);
     }
 
